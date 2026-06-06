@@ -296,26 +296,71 @@ function escapeHTML(value) {
 // AUTH
 // =======================
 
-function checkAuth() {
-    return localStorage.getItem("isAdmin") === "true";
-}
+// function checkAuth() {
+//     return localStorage.getItem("isAdmin") === "true";
+// }
 
-function login(username, password) {
+// function login(username, password) {
 
-    // برای پروژه دانشگاهی لاگین ساده
-    if (username === "admin" && password === "1234") {
-        localStorage.setItem("isAdmin", "true");
-        renderDashboard();
-    } else {
-        alert("نام کاربری یا رمز اشتباه است");
+//     // برای پروژه دانشگاهی لاگین ساده
+//     if (username === "admin" && password === "1234") {
+//         localStorage.setItem("isAdmin", "true");
+//         renderDashboard();
+//     } else {
+//         alert("نام کاربری یا رمز اشتباه است");
+//     }
+// }
+
+// function logout() {
+//     localStorage.removeItem("isAdmin");
+//     renderLogin();
+// }
+document.addEventListener("DOMContentLoaded", () => {
+
+    const currentPage = window.location.pathname.split("/").pop();
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+    // فقط داشبورد محافظت شود
+    if (currentPage === "teacher-dashboard.html" && !isLoggedIn) {
+        window.location.href = "./login.html";
     }
+
+});
+
+
+function handleLogin() {
+
+    const user = document.getElementById("username").value.trim();
+    const pass = document.getElementById("password").value.trim();
+    const errorMsg = document.getElementById("error-msg");
+
+    const ADMIN_USER = "admin";
+    const ADMIN_PASS = "123456";
+
+    if (user === ADMIN_USER && pass === ADMIN_PASS) {
+
+        localStorage.setItem("isLoggedIn", "true");
+
+        window.location.href = "./teacher-dashboard.html";
+
+    } else {
+
+        if (errorMsg) {
+            errorMsg.innerText = "نام کاربری یا رمز اشتباه است";
+        } else {
+            alert("نام کاربری یا رمز اشتباه است");
+        }
+
+    }
+
 }
 
 function logout() {
-    localStorage.removeItem("isAdmin");
-    renderLogin();
-}
 
+    localStorage.removeItem("isLoggedIn");
+    window.location.href = "./index.html";
+
+}
 
 // =======================
 // LOGIN PAGE
