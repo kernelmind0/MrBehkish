@@ -198,7 +198,7 @@ async function loadDashboardMessages() {
       <article class="message-card ${item.isRead ? "read" : "unread"}">
         <div class="message-header">
           <h3>${escapeHTML(item.subject)}</h3>
-          <span>${escapeHTML(item.createdAt || "")}</span>
+          <span id="date-span">${escapeHTML(item.createdAt || "")}</span>
         </div>
 
         <p><strong>نام:</strong> ${escapeHTML(item.name)}</p>
@@ -207,8 +207,8 @@ async function loadDashboardMessages() {
         <p>${escapeHTML(item.message)}</p>
 
         <div class="message-actions">
-          <button onclick="markMessageAsRead('${item.id}')">خوانده شد</button>
-          <button class="danger" onclick="deleteMessage('${item.id}')">حذف</button>
+          <button class="readbtn admin-msg-btn" onclick="markMessageAsRead('${item.id}')">خوانده شد</button>
+          <button class="danger admin-msg-btn" onclick="deleteMessage('${item.id}')">حذف</button>
         </div>
       </article>
     `).join("");
@@ -456,4 +456,116 @@ if (checkAuth()) {
     renderDashboard();
 } else {
     renderLogin();
+}
+//====================
+//login
+//====================
+document.addEventListener('DOMContentLoaded', () => {
+    const loginLink = document.querySelector('.login-icon');
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+    if (isLoggedIn === 'true' && loginLink) {
+        loginLink.href = 'teacher-dashboard.html';
+        loginLink.innerHTML = '<i class="fas fa-chart-line"></i> <span>پنل مدیریت</span>';
+
+        // اضافه کردن دکمه خروج (اختیاری)
+        const logoutBtn = document.createElement('a');
+        logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i>';
+        logoutBtn.className = 'login-icon';
+        logoutBtn.style.marginRight = '10px';
+        logoutBtn.onclick = () => {
+            localStorage.removeItem('isLoggedIn');
+            location.reload();
+        };
+        loginLink.parentNode.appendChild(logoutBtn);
+    }
+});
+
+function handleLogin() {
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value.trim();
+    const errorMsg = document.getElementById('error-msg');
+
+    // --- بخش کنایه‌آمیز ماجرا: رمز عبور ---
+    // حتماً این مقادیر را تغییر بده تا امنیت پوشالی‌مان کمی محکم‌تر شود
+    const ADMIN_USER = "admin";
+    const ADMIN_PASS = "123456";
+
+    if (user === ADMIN_USER && pass === ADMIN_PASS) {
+        // ذخیره وضعیت ورود در حافظه مرورگر
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('lastLogin', new Date().toLocaleString('fa-IR'));
+
+        // هدایت به داشبورد
+        window.location.href = "teacher-dashboard.html";
+    } else {
+        errorMsg.innerText = "تلاش بیهوده نکن! اطلاعات اشتباه است.";
+        // یک لرزش کوچک برای افکت بیشتر
+        const card = document.querySelector('.login-card');
+        card.style.animation = "shake 0.5s";
+        setTimeout(() => card.style.animation = "", 500);
+    }
+}
+
+// ورود با زدن دکمه اینتر
+document.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        handleLogin();
+    }
+});
+//===========================لاگین=====
+document.addEventListener('DOMContentLoaded', () => {
+    const authLink = document.getElementById('authLink');
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+    if (!authLink) return;
+
+    if (isLoggedIn) {
+        authLink.href = './teacher-dashboard.html';
+        authLink.title = 'ورود به پنل استاد';
+        authLink.innerHTML = `
+            <i class="fas fa-user-crown"></i>
+            <span>پنل استاد</span>
+        `;
+    } else {
+        authLink.href = './login.html';
+        authLink.title = 'ورود مدیریت';
+        authLink.innerHTML = `
+            <i class="fas fa-user-shield"></i>
+            <span>ورود استاد</span>
+        `;
+    }
+});
+function logout() {
+    localStorage.removeItem('isLoggedIn');
+    window.location.href = './index.html';
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const authLink = document.getElementById('authLink');
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+    if (!authLink) return;
+
+    if (isLoggedIn) {
+        authLink.href = './teacher-dashboard.html';
+        authLink.title = 'ورود به پنل استاد';
+        authLink.innerHTML = `
+            <i class="fas fa-user-crown"></i>
+            <span>پنل استاد</span>
+        `;
+    } else {
+        authLink.href = './login.html';
+        authLink.title = 'ورود مدیریت';
+        authLink.innerHTML = `
+            <i class="fas fa-user-shield"></i>
+            <span>ورود استاد</span>
+        `;
+    }
+});
+
+function logout() {
+    localStorage.removeItem('isLoggedIn');
+    window.location.href = './index.html';
 }

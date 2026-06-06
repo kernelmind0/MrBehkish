@@ -19,8 +19,9 @@
 
 
     --accent-color: #cd710f;
+    --error-color: orangered;
     --bgmain-color: #F5F7FA;
-    --lightgray-color: rgb(205, 198, 198);
+    --lightgray-color: rgb(181, 172, 172);
     --light-color: white;
     --dark-color: black;
 
@@ -483,6 +484,139 @@ a.home {
     color: var(--accent-color);
     font-size: var(--text-2xl);
 
+}
+
+/*
+  login
+*/
+/* استایل کلی برای نوار بالایی */
+.top-nav {
+    position: absolute;
+    top: 1rem;
+    left: 20px;
+    z-index: 1000;
+}
+
+.login-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 14px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+/* افکت زمان نگه داشتن موس (Hover) */
+.login-icon:hover {
+    background: #2c3e50;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* مخفی کردن متن در موبایل برای خلوت شدن صفحه */
+@media (max-width: 600px) {
+    .login-icon span {
+        display: none;
+    }
+
+    .login-icon {
+        padding: 10px;
+    }
+}
+
+/* login */
+/* ///////////////////////////////// */
+.login-card {
+    background: var(--bgmain-color);
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px var(--dark-color);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+
+    margin: auto;
+    margin-bottom: 3rem;
+}
+
+.login-card i.main-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+
+.input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.input-group i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #95a5a6;
+}
+
+input.input-login {
+    width: 100%;
+    padding: 12px 45px 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+    font-family: inherit;
+}
+
+input..input-login:focus {
+    border-color: var(--accent-color);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: var(--accent-color);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+#error-msg {
+    color: var(--accent-color);
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    height: 20px;
+    /* برای جلوگیری از پرش صفحه */
+}
+
+.back-home {
+    margin-top: 1.5rem;
+    display: block;
+    text-decoration: none;
+    color: #7f8c8d;
+    font-size: 0.85rem;
+}
+
+.back-home:hover {
+    color: var(--primary-color);
 }
 
 /* hero */
@@ -1165,4 +1299,187 @@ div.main-section {
     display: flex;
     justify-content: left;
     align-items: center;
+}
+
+/*=============
+  dashboard
+===============*/
+main.dashboard-container {
+    margin: 6rem auto;
+    width: 60vw;
+    height: auto;
+    background-color: var(--bgmain-color);
+    box-shadow: 0 0 5px var(--lightgray-color);
+}
+
+.dashboard-actions {
+    width: 100%;
+    height: 4rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+button#refreshMessagesBtn {
+    background-color: var(--primary-color);
+    color: var(--bgmain-color);
+    border: 2px solid var(--primary-color);
+}
+
+button#refreshMessagesBtn:hover {
+    background-color: var(--lightgray-color);
+    color: var(--primary-color);
+}
+
+main.dashboard-container section#messagelist-container {
+    width: 100%;
+    height: auto;
+    margin: auto;
+}
+
+div#messagesList {
+    width: 100% !important;
+    height: auto;
+    padding: 2rem;
+
+    display: grid;
+    grid-template-columns: repeat(3, minmax(150px, 1fr));
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+
+}
+
+
+.form-box {
+    background: #fff;
+    padding: 24px;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px var(--lightgray-color);
+}
+
+label {
+    display: block;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 15px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button.admin-msg-btn {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    display: inline-block;
+
+}
+
+button.readbtn.admin-msg-btn {
+    background-color: var(--bgmain-color);
+    color: var(--secondary-color);
+    border: 2px solid var(--secondary-color);
+}
+
+button.readbtn.admin-msg-btn:hover {
+    background: var(--secondary-color);
+    color: var(--bgmain-color);
+}
+
+button.admin-msg-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+button.admin-msg-btn.danger {
+    background-color: var(--bgmain-color);
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+}
+
+button.danger.admin-msg-btn:hover {
+    background-color: var(--accent-color);
+    color: var(--bgmain-color);
+
+}
+
+.message-header span#date-span {
+    color: var(--dark-color);
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+.status {
+    margin-top: 14px;
+    font-weight: bold;
+}
+
+.status.success {
+    color: var(--);
+}
+
+.status.error {
+    color: var(--accent-color);
+}
+
+.dashboard-actions {
+    margin-bottom: 20px;
+}
+
+.message-card {
+    background: var(--bgmain-color);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    border-right: 5px solid var(--accent-color);
+    box-shadow: 0 6px 18px var(--lightgray-color);
+}
+
+.message-card.read {
+    border-right-color: var(--lightgray-color);
+    opacity: 0.85;
+}
+
+.message-card.unread {
+    border-right-color: var(--primary-color);
+    color: var(--bgmain-color);
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+}
+
+
+div.message-actions {
+    /* display: grid;
+    flex-direction: row;
+    gap: 0.75rem;
+    flex-wrap: wrap; */
+}
+
+h2.messages {
+    padding-right: 1rem;
+    color: var(--accent-color);
 }

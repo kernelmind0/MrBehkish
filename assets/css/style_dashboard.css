@@ -1,27 +1,12 @@
-* {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+main.dashboard-container {
+    margin: 6rem auto;
+    background-color: red;
+    width: 500px;
+    height: auto;
+
 }
 
-body {
-    margin: 0;
-    font-family: Tahoma, Arial, sans-serif;
-    direction: rtl;
-    background: #f3f4f6;
-    color: #222;
-}
 
-.container {
-    width: min(900px, 92%);
-    margin: 40px auto;
-}
-
-h1,
-h2,
-h3 {
-    margin-top: 0;
-}
 
 .form-box {
     background: #fff;
@@ -51,7 +36,7 @@ textarea {
     resize: vertical;
 }
 
-button {
+button.admin-msg-btn {
     margin-top: 16px;
     padding: 10px 18px;
     border: 0;
@@ -62,20 +47,20 @@ button {
     font-family: inherit;
 }
 
-button:hover {
+button.admin-msg-btn:hover {
     background: #1d4ed8;
 }
 
-button:disabled {
+button.admin-msg-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
 
-button.danger {
+button.admin-msg-btn.danger {
     background: #dc2626;
 }
 
-button.danger:hover {
+button.danger.admin-msg-btn:hover {
     background: #b91c1c;
 }
 
@@ -85,11 +70,11 @@ button.danger:hover {
 }
 
 .status.success {
-    color: #15803d;
+    color: var(--);
 }
 
 .status.error {
-    color: #dc2626;
+    color: var(--accent-color);
 }
 
 .dashboard-actions {
@@ -101,7 +86,7 @@ button.danger:hover {
     padding: 20px;
     margin-bottom: 16px;
     border-radius: 14px;
-    border-right: 5px solid #2563eb;
+    border-right: 5px solid var(--secondary-color);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
