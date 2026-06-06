@@ -569,3 +569,200 @@ function logout() {
     localStorage.removeItem('isLoggedIn');
     window.location.href = './index.html';
 }
+/////////////////////////////////////////////
+////////داشبورد درس
+///درس ها رو لود میکنه
+document.addEventListener("DOMContentLoaded", () => {
+
+    const courseContainer = document.getElementById("courses-list");
+
+    if (courseContainer) {
+        loadCourses();
+    }
+
+});
+
+//درس ها رو میگیره و نشون میده
+async function loadCourses() {
+
+    const container = document.getElementById("courses-list");
+
+    try {
+
+        const res = await fetch(`${CONFIG.MOCK_API_BASE}/courses`);
+        const courses = await res.json();
+
+        container.innerHTML = "";
+
+        courses.forEach(course => {
+
+            container.innerHTML += `
+            
+            <div class="courses-desc-box">
+
+                <h2 class="courses-desc-box-heading">
+                    ${course.title}
+                </h2>
+
+                <p class="courses-desc-box-item">
+                    ${course.description}
+                </p>
+
+                <div class="script-btn">
+                    <a href="${course.link}"
+                    class="contents-list-item-readmore-btn btn-style btn-vacant-style"
+                    target="_blank">
+                    دانلود فایل
+                    </a>
+                </div>
+
+            </div>
+
+            `;
+
+        });
+
+    } catch (error) {
+
+        container.innerHTML = "خطا در دریافت دروس";
+
+    }
+
+}
+///درس رو اضافه میکنه
+async function addNewCourse() {
+
+    const title = document.getElementById("courseTitle").value;
+    const description = document.getElementById("courseDescription").value;
+    const link = document.getElementById("courseLink").value;
+
+    await fetch(`${CONFIG.MOCK_API_BASE}/courses`, {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            title,
+            description,
+            link
+        })
+
+    });
+
+    alert("درس اضافه شد");
+
+}
+///درس رو حذف میکنه
+async function deleteCourse(id) {
+
+    await fetch(`${CONFIG.MOCK_API_BASE}/courses/${id}`, {
+
+        method: "DELETE"
+
+    });
+
+}
+// =====================
+// لود شدن درسها در داشبورد
+document.addEventListener("DOMContentLoaded", () => {
+
+    const dashContainer = document.getElementById("dashboard-courses-list");
+
+    if (dashContainer) {
+        loadDashboardCourses();
+    }
+
+});
+////======================
+///چاپ درسها در داشبورد
+async function loadDashboardCourses() {
+
+    const container = document.getElementById("dashboard-courses-list");
+
+    const res = await fetch(`${CONFIG.MOCK_API_BASE}/courses`);
+    const courses = await res.json();
+
+    container.innerHTML = "<h3>لیست دروس ثبت شده:</h3><br>";
+
+    courses.forEach(course => {
+
+        container.innerHTML += `
+        
+        <div style="border:1px solid #ddd; padding:15px; margin-bottom:15px; border-radius:8px">
+
+            <strong>${course.title}</strong>
+            <p>${course.description}</p>
+
+            <button onclick="deleteCourse('${course.id}')" 
+            style="background:#c0392b; color:white; border:none; padding:6px 12px; border-radius:6px">
+            حذف
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+}
+////////////////////////
+///اضافه کردن درس به داشبودر
+async function addNewCourse() {
+
+    const title = document.getElementById("courseTitle").value.trim();
+    const description = document.getElementById("courseDescription").value.trim();
+    const link = document.getElementById("courseLink").value.trim();
+
+    if (!title || !description || !link) {
+        alert("همه فیلدها را پر کنید");
+        return;
+    }
+
+    await fetch(`${CONFIG.MOCK_API_BASE}/courses`, {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            title,
+            description,
+            link
+        })
+
+    });
+
+    alert("درس با موفقیت اضافه شد ✅");
+
+    // پاک کردن فیلدها
+    document.getElementById("courseTitle").value = "";
+    document.getElementById("courseDescription").value = "";
+    document.getElementById("courseLink").value = "";
+
+    loadDashboardCourses();
+
+}
+////////////////////////////
+////////حذف درس از داشبورد
+async function deleteCourse(id) {
+
+    if (!confirm("از حذف این درس مطمئن هستید؟")) return;
+
+    await fetch(`${CONFIG.MOCK_API_BASE}/courses/${id}`, {
+        method: "DELETE"
+    });
+
+    loadDashboardCourses();
+
+}
+////امنیت 
+if (localStorage.getItem("isLoggedIn") !== "true") {
+    window.location.href = "./login.html";
+}
+
+
