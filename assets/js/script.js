@@ -514,61 +514,80 @@ document.addEventListener('keypress', function (e) {
     }
 });
 //===========================لاگین=====
-document.addEventListener('DOMContentLoaded', () => {
-    const authLink = document.getElementById('authLink');
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+// document.addEventListener('DOMContentLoaded', () => {
+//     const currentPage = window.location.pathname.split('/').pop();
+//     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-    if (!authLink) return;
+//     updateAuthLink(isLoggedIn);
 
-    if (isLoggedIn) {
-        authLink.href = './teacher-dashboard.html';
-        authLink.title = 'ورود به پنل استاد';
-        authLink.innerHTML = `
-            <i class="fas fa-user-crown"></i>
-            <span>پنل استاد</span>
-        `;
-    } else {
-        authLink.href = './login.html';
-        authLink.title = 'ورود مدیریت';
-        authLink.innerHTML = `
-            <i class="fas fa-user-shield"></i>
-            <span>ورود استاد</span>
-        `;
-    }
-});
-function logout() {
-    localStorage.removeItem('isLoggedIn');
-    window.location.href = './index.html';
-}
+//     // اگر کاربر وارد نشده و مستقیم وارد داشبورد شد، برگردد به لاگین
+//     if (currentPage === 'teacher-dashboard.html' && !isLoggedIn) {
+//         window.location.href = './login.html';
+//         return;
+//     }
+
+//     // اگر کاربر قبلاً لاگین کرده و دوباره صفحه لاگین را باز کرد، برود داشبورد
+//     if (currentPage === 'login.html' && isLoggedIn) {
+//         window.location.href = './teacher-dashboard.html';
+//         return;
+//     }
+// });
+
+// function updateAuthLink(isLoggedIn) {
+//     const authLink = document.getElementById('authLink');
+
+//     if (!authLink) return;
+
+//     if (isLoggedIn) {
+//         authLink.href = './teacher-dashboard.html';
+//         authLink.title = 'ورود به پنل استاد';
+//         authLink.innerHTML = `
+//             <i class="fas fa-user-crown"></i>
+//             <span>پنل استاد</span>
+//         `;
+//     } else {
+//         authLink.href = './login.html';
+//         authLink.title = 'ورود مدیریت';
+//         authLink.innerHTML = `
+//             <i class="fas fa-user-shield"></i>
+//             <span>ورود استاد</span>
+//         `;
+//     }
+// }
+
+// function handleLogin() {
+//     const usernameInput = document.getElementById('username');
+//     const passwordInput = document.getElementById('password');
+//     const errorMsg = document.getElementById('error-msg');
+
+//     if (!usernameInput || !passwordInput) return;
+
+//     const username = usernameInput.value.trim();
+//     const password = passwordInput.value.trim();
+
+//     // اطلاعات ورود تستی
+//     const validUsername = 'admin';
+//     const validPassword = '1234';
+
+//     if (username === validUsername && password === validPassword) {
+//         localStorage.setItem('isLoggedIn', 'true');
+//         window.location.href = './teacher-dashboard.html';
+//     } else {
+//         if (errorMsg) {
+//             errorMsg.textContent = 'نام کاربری یا رمز عبور اشتباه است';
+//             errorMsg.style.color = 'red';
+//         } else {
+//             alert('نام کاربری یا رمز عبور اشتباه است');
+//         }
+//     }
+// }
+
+// function logout() {
+//     localStorage.removeItem('isLoggedIn');
+//     window.location.href = './index.html';
+// }
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    const authLink = document.getElementById('authLink');
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-
-    if (!authLink) return;
-
-    if (isLoggedIn) {
-        authLink.href = './teacher-dashboard.html';
-        authLink.title = 'ورود به پنل استاد';
-        authLink.innerHTML = `
-            <i class="fas fa-user-crown"></i>
-            <span>پنل استاد</span>
-        `;
-    } else {
-        authLink.href = './login.html';
-        authLink.title = 'ورود مدیریت';
-        authLink.innerHTML = `
-            <i class="fas fa-user-shield"></i>
-            <span>ورود استاد</span>
-        `;
-    }
-});
-
-function logout() {
-    localStorage.removeItem('isLoggedIn');
-    window.location.href = './index.html';
-}
 /////////////////////////////////////////////
 ////////داشبورد درس
 ///درس ها رو لود میکنه
@@ -676,10 +695,14 @@ async function loadDashboardCourses() {
 
 
 ////امنیت 
-if (localStorage.getItem("isLoggedIn") !== "true") {
-    window.location.href = "./login.html";
-}
+document.addEventListener("DOMContentLoaded", () => {
+    const currentPage = window.location.pathname.split("/").pop();
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
+    if (currentPage === "teacher-dashboard.html" && !isLoggedIn) {
+        window.location.href = "./login.html";
+    }
+});
 
 
 
