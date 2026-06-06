@@ -8,6 +8,8 @@ const CONFIG = {
 };
 
 const app = document.getElementById("app");
+
+
 // =======================
 // وقتی صفحه کامل لود شد
 // اگر EmailJS در صفحه وجود داشت
@@ -174,6 +176,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 async function loadDashboardMessages() {
+
+
+
     const messagesList = document.getElementById("messagesList");
 
     messagesList.innerHTML = "<p>در حال دریافت پیام‌ها...</p>";
@@ -497,11 +502,11 @@ async function deleteNote(id) {
 // INIT
 // =======================
 
-if (checkAuth()) {
-    renderDashboard();
-} else {
-    renderLogin();
-}
+// if (checkAuth()) {
+//     renderDashboard();
+// } else {
+//     renderLogin();
+// }
 //====================
 //login
 //====================
@@ -709,9 +714,35 @@ document.addEventListener("DOMContentLoaded", () => {
 ///چاپ درسها در داشبورد
 async function loadDashboardCourses() {
 
+    // const container = document.getElementById("dashboard-courses-list");
+
+    // const res = await fetch(`${CONFIG.MOCK_API_BASE}/notes`);
+    // const courses = await res.json();
+
+    // container.innerHTML = "<h3>لیست دروس ثبت شده:</h3><br>";
+
+    // courses.forEach(course => {
+
+    //     container.innerHTML += `
+
+    //     <div style="border:1px solid #ddd; padding:15px; margin-bottom:15px; border-radius:8px">
+
+    //         <strong>${course.title}</strong>
+    //         <p>${course.description}</p>
+
+    //         <button onclick="deleteCourse('${course.id}')" 
+    //         style="background:#c0392b; color:white; border:none; padding:6px 12px; border-radius:6px">
+    //         حذف
+    //         </button>
+
+    //     </div>
+
+    //     `;
+
+    // });
     const container = document.getElementById("dashboard-courses-list");
 
-    const res = await fetch(`${CONFIG.MOCK_API_BASE}/courses`);
+    const res = await fetch(`${CONFIG.MOCK_API_BASE}/notes`);
     const courses = await res.json();
 
     container.innerHTML = "<h3>لیست دروس ثبت شده:</h3><br>";
@@ -725,6 +756,14 @@ async function loadDashboardCourses() {
             <strong>${course.title}</strong>
             <p>${course.description}</p>
 
+            <a href="${course.link}"
+               class="contents-list-item-readmore-btn btn-style btn-vacant-style"
+               target="_blank">
+               مشاهده / دانلود فایل
+            </a>
+
+            <br><br>
+
             <button onclick="deleteCourse('${course.id}')" 
             style="background:#c0392b; color:white; border:none; padding:6px 12px; border-radius:6px">
             حذف
@@ -735,7 +774,6 @@ async function loadDashboardCourses() {
         `;
 
     });
-
 }
 
 
@@ -750,5 +788,154 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 ;
 
+////////////////////////////////////////
+///اضافه کردن فایل
+async function addNewCourse() {
+    const titleEl = document.getElementById("courseTitle");
+    const descEl = document.getElementById("courseDescription");
+    const fileEl = document.getElementById("courseFile");
+
+    const title = titleEl.value.trim();
+    const description = descEl.value.trim();
+    const file = fileEl.files[0];
+
+    if (!title || !description || !file) {
+        alert("لطفاً نام درس، توضیحات و فایل PDF را کامل کنید.");
+        return;
+    }
+
+    if (file.type !== "application/pdf") {
+        alert("فقط فایل PDF مجاز است.");
+        return;
+    }
+
+    try {
+        // 1) آپلود فایل در Cloudinary
+        const cloudinaryUrl = await uploadFileToCloudinary(file);
+
+        // 2) ذخیره اطلاعات درس در MockAPI
+        const newCourse = {
+            title,
+            description,
+            link: cloudinaryUrl,
+            createdAt: new Date().toLocaleString("fa-IR")
+        };
+
+        const response = await fetch(`${CONFIG.MOCK_API_BASE}/notes`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newCourse)
+        });
+
+        if (!response.ok) {
+            throw new Error("خطا در ذخیره درس");
+        }
+
+        // 3) پاک‌کردن فرم
+        titleEl.value = "";
+        descEl.value = "";
+        fileEl.value = "";
+
+        alert("جزوه با موفقیت اضافه شد.");
+
+        // 4) رفرش لیست‌ها
+        if (typeof loadDashboardCourses === "function") {
+            loadDashboardCourses();
+        }
+
+        if (typeof loadCourses === "function") {
+            loadCourses();
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("خطا در افزودن جزوه. دوباره تلاش کنید.");
+    }
+}
 
 
+async function uploadFileToCloudinary(file) {
+
+    const cloudName = "dm16lrlci";
+    const uploadPreset = "behkish_upload";
+
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", uploadPreset);
+
+    const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/raw/upload`,
+        {
+            method: "POST",
+            body: formData
+        }
+    );
+
+    // اینجا از محتوای پاسخ رمزگشایی می‌کنیم
+    const result = await response.json();
+
+    if (!response.ok) {
+        // این همان جایی است که می‌فهمیم چرا ما را راه نمی‌دهد
+        console.error("متن دقیق خطای Cloudinary:", result);
+        throw new Error(`خطای ${response.status}: ${result.error.message}`);
+    }
+
+    return result.secure_url;
+
+    // const formData = new FormData();
+    // formData.append("file", file);
+    // formData.append("upload_preset", uploadPreset);
+
+    // const response = await fetch(
+    //     `https://api.cloudinary.com/v1_1/${cloudName}/raw/upload`,
+    //     {
+    //         method: "POST",
+    //         body: formData
+    //     }
+    // );
+    // if (!response.ok) {
+    //     const errorDetails = await response.json();
+    //     console.error("خطای Cloudinary:", errorDetails); // اینجا متن دقیق خطا را می‌بینید
+    //     throw new Error("آپلود ناموفق: " + errorDetails.error.message);
+    // }
+
+    // const data = await response.json();
+
+    // if (!response.ok) {
+    //     console.error("Cloudinary error:", data);
+    //     throw new Error(data.error?.message || "خطا در آپلود فایل");
+    // }
+
+    // return data.secure_url;
+}
+// تابع حذف درس از MockAPI و لیست
+async function deleteCourse(id) {
+    // یک تاییدیه کوچک که کاربر اشتباهی دستش روی دکمه نرود
+    if (!confirm("آیا از حذف این جزوه اطمینان دارید؟")) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`${CONFIG.MOCK_API_BASE}/notes/${id}`, {
+            method: "DELETE"
+        });
+
+        if (!response.ok) {
+            throw new Error("خطا در حذف درس از سرور");
+        }
+
+        alert("جزوه با موفقیت حذف شد.");
+
+        // بعد از حذف موفق، لیست را دوباره بارگذاری کن تا تغییرات دیده شود
+        if (typeof loadDashboardCourses === "function") {
+            loadDashboardCourses();
+        }
+
+    } catch (error) {
+        console.error("Delete Error:", error);
+        alert("مشکلی در حذف جزوه پیش آمد.");
+    }
+}
