@@ -1801,6 +1801,10 @@ button {
             padding-right: 0.5rem;
 
         }
+
+        li.menu-item {
+            padding-inline: 0.3rem;
+        }
     }
 
 
