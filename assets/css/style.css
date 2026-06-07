@@ -509,7 +509,6 @@ a.home {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* مخفی کردن متن در موبایل برای خلوت شدن صفحه */
 @media (max-width: 600px) {
     .login-icon span {
         display: none;
@@ -1795,6 +1794,15 @@ button {
         padding-inline: 0.65rem;
         padding-block: 0.5rem;
     }
+
+    @media (max-width: 600px) {
+        nav.container {
+
+            padding: 0.4rem 0.5rem 0.4rem 0.5rem;
+
+        }
+    }
+
 
     a.menu-link,
     a.home {
