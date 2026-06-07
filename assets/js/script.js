@@ -680,7 +680,7 @@ async function loadCourses() {
                 <div class="script-btn">
                     <a href="${course.link}"
                     class="contents-list-item-readmore-btn btn-style btn-vacant-style"
-                    target="_blank">
+                    target="_blank" download>
                     دانلود فایل
                     </a>
                 </div>
@@ -758,7 +758,7 @@ async function loadDashboardCourses() {
 
             <a href="${course.link}"
                class="contents-list-item-readmore-btn btn-style btn-vacant-style"
-               target="_blank">
+               target="_blank" downlaod>
                مشاهده / دانلود فایل
             </a>
 
@@ -812,6 +812,8 @@ async function addNewCourse() {
     try {
         // 1) آپلود فایل در Cloudinary
         const cloudinaryUrl = await uploadFileToCloudinary(file);
+        console.log("PDF URL:", cloudinaryUrl);
+
 
         // 2) ذخیره اطلاعات درس در MockAPI
         const newCourse = {
@@ -867,7 +869,7 @@ async function uploadFileToCloudinary(file) {
     formData.append("upload_preset", uploadPreset);
 
     const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${cloudName}/raw/upload`,
+        `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
         {
             method: "POST",
             body: formData
