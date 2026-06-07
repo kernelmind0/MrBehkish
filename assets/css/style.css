@@ -2194,3 +2194,26 @@ button {
         padding: 1.25rem;
     }
 }
+
+/* لودر */
+.neon-loader {
+    width: 60px;
+    height: 60px;
+    border: 5px solid transparent;
+    border-top: 5px solid #00f2ff;
+    /* رنگ آبی نئونی */
+    border-radius: 50%;
+    animation: rotate-neon 1.2s linear infinite;
+    /* این بخش جادوی نئون است */
+    box-shadow: 0 0 10px #00f2ff, 0 0 20px #00f2ff, inset 0 0 10px #00f2ff;
+}
+
+@keyframes rotate-neon {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

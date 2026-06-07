@@ -941,3 +941,11 @@ async function deleteCourse(id) {
         alert("مشکلی در حذف جزوه پیش آمد.");
     }
 }
+
+// لودر    
+window.onload = () => {
+    setTimeout(() => {
+        document.querySelector('.neon-loader').style.display = 'none';
+        //  console.log("خب، صفحه لود شد.");
+    }, 5000);
+};
