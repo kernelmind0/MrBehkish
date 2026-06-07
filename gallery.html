@@ -57,27 +57,55 @@
             </h3>
             <section class=" gallery">
 
-                <!-- اینجا آدرس عکس‌هایی که برایت ساختم را بگذار -->
-                <div class="gallery-img"> <img src="./assets/image/01-person-classroom.png" alt="کلاس درس - محمد بهکیش"
-                        onclick="openLightbox(this)"></div>
-                <div class="gallery-img"> <img src="./assets/image/02-person-meeting.png"
-                        alt=" کنفرانس سالانه دانشگاه شریف درباره هوش مصنوعی - سخنران محمد بهکیش"
+                <div class="gallery-img">
+
+
+                    <img src="./assets/image/01-person-classroom-sm.jpg"
+                        data-full="./assets/image/01-person-classroom.png" alt="کلاس درس - محمد بهکیش"
                         onclick="openLightbox(this)">
                 </div>
-                <div class="gallery-img"> <img src="./assets/image/03-ai-book.png" alt=" کتاب هوش مصنوعی - محمد بهکیش"
-                        onclick="openLightbox(this)"></div>
-                <div class="gallery-img"> <img src="./assets/image/04-img-certificate-python.png"
-                        alt=" مدرک بین المللی پایتون" onclick="openLightbox(this)"></div>
-                <div class="gallery-img"><img src="./assets/image/05-img-cetificate_AWS.png" alt=" مدرک بین المللی AWS"
-                        onclick="openLightbox(this)"></div>
-                <div class="gallery-img"> <img src="./assets/image/06-img-cetificate_IELTS.png"
-                        alt=" مدرک بین المللی زبان IELTS(Score 8)" onclick="openLightbox(this)"></div>
+
+
+                <div class="gallery-img">
+                    <img src="./assets/image/02-person-meeting-sm.jpg" data-full="./assets/image/02-person-meeting.png"
+                        alt="کلاس درس - محمد بهکیش" onclick="openLightbox(this)">
+
+
+                </div>
+                <div class="gallery-img">
+
+                    <img src="./assets/image/03-ai-book-sm.jpg" data-full="./assets/image/03-ai-book.png"
+                        alt="کلاس درس - محمد بهکیش" onclick="openLightbox(this)">
+
+
+                </div>
+
+                <div class="gallery-img">
+
+
+                    <img src="./assets/image/04-img-certificate-python-sm.jpg"
+                        data-full="./assets/image/04-img-certificate-python.png" alt="کلاس درس - محمد بهکیش"
+                        onclick="openLightbox(this)">
+
+                </div>
+                <div class="gallery-img">
+
+                    <img src="./assets/image/05-img-cetificate_AWS-sm.jpg"
+                        data-full="./assets/image/05-img-cetificate_AWS.png" alt="کلاس درس - محمد بهکیش"
+                        onclick="openLightbox(this)">
+
+
+                </div>
+                <div class="gallery-img">
+                    <img src="./assets/image/06-img-cetificate_IELTS-sm.jpg"
+                        data-full="./assets/image/06-img-cetificate_IELTS.png" alt="کلاس درس - محمد بهکیش"
+                        onclick="openLightbox(this)">
 
 
 
+                </div>
 
             </section>
-            <!-- ساختار لایت‌باکس -->
             <div id="myLightbox" class="lightbox">
                 <span class="close-btn" onclick="closeLightbox()">&times;</span>
                 <img id="lightboxImg" src="" alt="">
@@ -161,7 +189,11 @@
             const captionText = document.getElementById("caption");
 
             lightbox.style.display = "flex";
-            lightboxImg.src = element.src;
+
+
+            const fullImageUrl = element.getAttribute("data-full") || element.src;
+            lightboxImg.src = fullImageUrl;
+
             captionText.innerHTML = element.alt;
         }
 
