@@ -335,9 +335,6 @@ label {
 }
 
 @media (max-width: 480px) {
-    .container {
-        padding: 0 var(--spacing-3);
-    }
 
     .btn {
         width: 100%;
@@ -1798,7 +1795,7 @@ button {
     @media (max-width: 600px) {
         nav.container {
 
-            padding-right: 0rem;
+            padding-right: 0.2rem;
 
         }
 
