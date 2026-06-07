@@ -1798,7 +1798,7 @@ button {
     @media (max-width: 600px) {
         nav.container {
 
-            padding: 0.4rem 0.5rem 0.4rem 0.5rem;
+            padding-right: 0.5rem;
 
         }
     }
