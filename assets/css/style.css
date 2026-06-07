@@ -1798,7 +1798,7 @@ button {
     @media (max-width: 600px) {
         nav.container {
 
-            padding-right: 0.5rem;
+            padding-right: 0rem;
 
         }
 
@@ -2155,7 +2155,7 @@ button {
     }
 
     nav.container {
-        padding-right: 3rem;
+        padding-right: 0.5rem;
     }
 
     a.menu-link,
