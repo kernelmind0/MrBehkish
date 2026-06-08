@@ -947,5 +947,8 @@ window.onload = () => {
     setTimeout(() => {
         document.querySelector('.neon-loader').style.display = 'none';
         //  console.log("خب، صفحه لود شد.");
-    }, 500);
+    }, 5000);
 };
+window.addEventListener("load", function () {
+    document.getElementById("overlay").style.display = "none";
+});
